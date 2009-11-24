@@ -59,3 +59,28 @@ new File(root,".classpath").withWriter { w->
   }.toString().replaceAll(/'/,/"/).replaceAll(/<classpathentry/,"""
     <classpathentry""")
 }
+
+// if .project doesn't exist, create it
+new File(root,'.project').with {
+	if(!exists()) {
+		it << """\
+<?xml version="1.0" encoding="UTF-8"?>
+<projectDescription>
+	<name>${root.canonicalFile.name}</name>
+	<comment></comment>
+	<projects>
+	</projects>
+	<buildSpec>
+		<buildCommand>
+			<name>org.eclipse.jdt.core.javabuilder</name>
+			<arguments>
+			</arguments>
+		</buildCommand>
+	</buildSpec>
+	<natures>
+		<nature>org.eclipse.jdt.groovy.core.groovyNature</nature>
+		<nature>org.eclipse.jdt.core.javanature</nature>
+	</natures>
+</projectDescription>"""
+	}
+}
